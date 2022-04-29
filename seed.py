@@ -1,7 +1,9 @@
 from models import Pet, db
 from app import app
 
-def create_table():# Create all tables
+#Create Tables
+
+def create_table():
     db.drop_all()
     db.create_all()
 
