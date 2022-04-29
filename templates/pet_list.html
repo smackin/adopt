@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title> Add New Pet</title>
 </head>
 <body>
     <h1> New Pets! </h1>
     <form action="" method="POST">
-        {% for field in form 
-            if field.widget.input_type != 'hidden' %}
-
-            <p> 
-                {{field.label}}
-                {{field}}
-
-                {% for error in field.errors %}
+        {% for pet in pets %}
+            <p>{{pet.name}} the {{pet.species}} </p>
+            <p><img src="{{pet.photo_url}}" width="250" height="200"></p>   
+            <p>{{pet.age}} year(s) old</p>   
+            <p>{{pet.notes}}</p>   
+            <p>{% if pet.available %} <b> Take me Home! </b> {% endif %}</p>   
+        
+            <p>
+                {% for error in pet.errors %}
                   {{error}}
                 {% endfor %}
             </p>

@@ -16,7 +16,7 @@ pet4 = Pet(name='Oreo', species='Cat', photo_url='https://static.boredpanda.com/
 
 pet5 = Pet(name='Jack', species='Turtle', photo_url='https://www.everythingreptiles.com/wp-content/uploads/2020/07/Pet-Turtle-Names.jpg', age=2, notes='Does not fight crime, does not live underground with 3 other turtles.', available=True)
 
-pet6 = Pet(name='Marcel', species='Monkey', photo_url='https://petkeen.com/wp-content/uploads/2021/06/capuchin-in-the-tree.jpeg', age=7, notes='curious and cute, active and playful, looking for a family with young kids', available=True)
+pet7 = Pet(name='Marcel', species='Monkey', photo_url='https://petkeen.com/wp-content/uploads/2021/06/capuchin-in-the-tree.jpeg', age=7, notes='curious and cute, active and playful, looking for a family with young kids.', available=True)
 
-db.session.add([pet1, pet2, pet3, pet4, pet5, pet6])
+db.session.add_all([pet1, pet2, pet3, pet4, pet5, pet7])
 db.session.commit()
