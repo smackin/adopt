@@ -1,7 +1,7 @@
-from flask import Flask, jsonify, render_template, redirect, flash, session
+from flask import Flask, jsonify, render_template, redirect, flash, session, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, Pet, connect_db
-from forms import AddNewPetForm
+from forms import AddNewPetForm, EditPetForm
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ connect_db(app)
 
 toolbar = DebugToolbarExtension(app)
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def list_pets():
     """show page that renders all pets present in db"""
     pets = Pet.query.all()
@@ -46,11 +46,30 @@ def add_pet():
         return render_template('add_pet_form.html', form=form)
 
 
-@app.route('/pets/<int:pet_id>', methods=['GET'])
-def api_get_pet(pet_id):
+
+@app.route('/<int:id>', methods=['GET', 'POST'])
+def edit_pet(id):
+    """Edit Existing Pet"""
+    
+    pet= Pet.query.get_or_404(id)
+    form = EditPetForm(obj=pet)
+    
+    if form.validate_on_submit():
+        pet.notes = form.notes.data
+        pet.available = form.available.data
+        pet.photo_url = form.photo_url.data
+        db.session.commit()
+        flash(f"{pet.name} has been updated.")
+        return redirect(url_for('list_pets'))
+    
+    else: 
+        return render_template("pet_edit_form.html", form=form, pet=pet)
+
+@app.route('/pets/<int:id>', methods=['GET',])
+def api_get_pet(id):
     """Return and display info about Pet"""
     
-    pet = Pet.query.get_or_404(pet_id)
+    pet = Pet.query.get_or_404(id)
     info = {"name": pet.name, "age": pet.age}
     
     return jsonify(info)
