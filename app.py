@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, flash, session
+from flask import Flask, jsonify, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from models import db, Pet, connect_db
 from forms import AddNewPetForm
@@ -16,8 +16,6 @@ app.config['SECRET_KEY'] = 'Top Secret'
 connect_db(app)
 
 toolbar = DebugToolbarExtension(app)
-
-connect_db(app)
 
 @app.route('/', methods=['GET'])
 def list_pets():
@@ -37,7 +35,6 @@ def add_pet():
         photo_url=form.photo_url.data, 
         age=form.age.data, 
         notes=form.notes.data
-        breakpoint()
         new_pet= Pet(name=name, species=species, photo_url=photo_url, age=age, notes=notes)
         db.session.add(new_pet)
         db.session.commit()
@@ -49,3 +46,11 @@ def add_pet():
         return render_template('add_pet_form.html', form=form)
 
 
+@app.route('/pets/<int:pet_id>', methods=['GET'])
+def api_get_pet(pet_id):
+    """Return and display info about Pet"""
+    
+    pet = Pet.query.get_or_404(pet_id)
+    info = {"name": pet.name, "age": pet.age}
+    
+    return jsonify(info)

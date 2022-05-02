@@ -23,13 +23,13 @@ class AddNewPetForm(FlaskForm):
     notes = TextAreaField("Notes")
     
 class EditPetForm(FlaskForm):
-        """form to edit existing Pet """
-photo_url = StringField(
+    """form to edit existing Pet """
+    photo_url = StringField(
         "Photo URL",
         validators=[Optional(), URL()],
     )
-notes = TextAreaField(
+    notes = TextAreaField(
         "Comments",
         validators=[Optional(), Length(min=10)],
     )
-available = BooleanField("Available?")
+    available = BooleanField("Available?")
